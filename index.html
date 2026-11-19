@@ -110,6 +110,7 @@ footer{padding:20px 0 110px;font-size:13px;text-align:center}
 #vm{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(20px + env(safe-area-inset-bottom,0px));background:rgba(10,9,8,.92)}
 #vm.on{display:flex}
 #vm video{max-width:100%;max-height:100%;border-radius:14px;background:#000}
+#vm iframe{border:0;border-radius:14px;background:#000;height:min(85vh,85dvh);aspect-ratio:9/16;max-width:100%}
 #vx{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--ln);background:var(--pn);color:var(--tx);font-size:20px;cursor:pointer}
 </style></head>
 <body>
@@ -152,22 +153,22 @@ footer{padding:20px 0 110px;font-size:13px;text-align:center}
 <div class="cr2"><span>Find me online</span><span style="display:flex;gap:8px;flex-wrap:wrap"><a class="pl" href="https://www.instagram.com/rahul_reso" target="_blank" rel="noopener">Instagram</a><a class="pl" href="https://www.linkedin.com/in/rahul-kundu-9a382031b" target="_blank" rel="noopener">LinkedIn</a></span></div></div></div></section>
 <footer>© 2026 Rahul_reso</footer>
 <div class="goo"><a href="#contact">let’s collab</a></div>
-<div id="vm" role="dialog" aria-modal="true" aria-label="Video player"><button id="vx" type="button" aria-label="Close">✕</button><video id="vp" controls playsinline></video></div>
+<div id="vm" role="dialog" aria-modal="true" aria-label="Video player"><button id="vx" type="button" aria-label="Close">✕</button><video id="vp" controls playsinline></video><iframe id="vf" title="Video player" allow="autoplay; fullscreen" allowfullscreen hidden></iframe></div>
 <div class="cu ch" id="ch"></div><div class="cu cr" id="cr"></div><div class="cu cd" id="cd"></div>
 
 <script>
-const CONTENT={email:'rahulkundureshob@gmail.com',longs:[{title:'Edit 1',src:'videos/edit-1.mp4',poster:'videos/edit-1.jpg'},{title:'Edit 2',src:'videos/edit-2.mp4',poster:'videos/edit-2.jpg'}],shorts:[{title:'Edit 3',src:'videos/edit-3.mp4',poster:'videos/edit-3.jpg'}]}; /* add {title,src,poster} for a hosted video or {title,url} for a link */
+const CONTENT={email:'rahulkundureshob@gmail.com',longs:[{title:'Edit 1',drive:'14HXXC0OyC6o7pk9iRI6WOEdteDluP76J'},{title:'Edit 2',drive:'1vthkIpzY3kIjXExrL5QMEgITfR1OtEW5'}],shorts:[{title:'Short 1',drive:'1s0Ky6VWyslptkfAWxtVhmbV3msoUPqCJ'}]}; /* add {title,drive:'FILE_ID'} for a Google Drive video, {title,src,poster} for a hosted video, or {title,url} for a link */
 const rm=matchMedia('(prefers-reduced-motion:reduce)').matches,$=s=>document.querySelector(s);
 $('#em').textContent=CONTENT.email;
 $('#cp').onclick=async e=>{try{await navigator.clipboard.writeText(CONTENT.email);e.target.textContent='Copied'}catch(x){e.target.textContent='Press and hold the email to copy'}setTimeout(()=>e.target.textContent='Copy email',2200)};
 $('#mq').innerHTML=Array(2).fill(['Pacing','Color grading','Sound design','Motion graphics','Storytelling','Short-form'].map(s=>'<span>'+s+'</span>').join('')).join('');
-function rail(el,items,c){const l=items.length?items:[0,0,0,0];el.innerHTML=l.map(i=>!i?'<div class="vc e '+c+'"><span>▶</span><em>Your video goes here</em></div>':i.src?'<button type="button" class="vc '+c+' pv" data-src="'+i.src+'" data-t="'+i.title+'" style="background-image:linear-gradient(transparent 45%,rgba(0,0,0,.75)),url('+i.poster+')"><span>▶</span><em>'+i.title+'</em></button>':'<a class="vc '+c+'" href="'+i.url+'" target="_blank" rel="noopener"><span>▶</span><em>'+i.title+'</em></a>').join('')}
+function rail(el,items,c){const l=items.length?items:[0,0,0,0];el.innerHTML=l.map(i=>!i?'<div class="vc e '+c+'"><span>▶</span><em>Your video goes here</em></div>':i.drive?'<button type="button" class="vc '+c+' pv" data-drive="'+i.drive+'" data-t="'+i.title+'" style="background-image:linear-gradient(transparent 45%,rgba(0,0,0,.75)),url(https://drive.google.com/thumbnail?id='+i.drive+'&sz=w800)"><span>▶</span><em>'+i.title+'</em></button>':i.src?'<button type="button" class="vc '+c+' pv" data-src="'+i.src+'" data-t="'+i.title+'" style="background-image:linear-gradient(transparent 45%,rgba(0,0,0,.75)),url('+i.poster+')"><span>▶</span><em>'+i.title+'</em></button>':'<a class="vc '+c+'" href="'+i.url+'" target="_blank" rel="noopener"><span>▶</span><em>'+i.title+'</em></a>').join('')}
 rail($('#rl'),CONTENT.longs,'');rail($('#rs'),CONTENT.shorts,'s');
 
 /* Video modal */
-(()=>{const m=$('#vm'),v=$('#vp');
-const close=()=>{v.pause();v.removeAttribute('src');v.load();m.classList.remove('on')};
-document.addEventListener('click',e=>{const b=e.target.closest('.pv');if(b){v.src=b.dataset.src;v.setAttribute('aria-label',b.dataset.t);m.classList.add('on');v.play().catch(()=>{})}else if(e.target===m||e.target.closest('#vx'))close()});
+(()=>{const m=$('#vm'),v=$('#vp'),f=$('#vf');
+const close=()=>{v.pause();v.removeAttribute('src');v.load();f.src='about:blank';f.hidden=true;v.hidden=false;m.classList.remove('on')};
+document.addEventListener('click',e=>{const b=e.target.closest('.pv');if(b&&b.dataset.drive){v.hidden=true;f.hidden=false;f.title=b.dataset.t;f.src='https://drive.google.com/file/d/'+b.dataset.drive+'/preview';m.classList.add('on')}else if(b){v.src=b.dataset.src;v.setAttribute('aria-label',b.dataset.t);m.classList.add('on');v.play().catch(()=>{})}else if(e.target===m||e.target.closest('#vx'))close()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&m.classList.contains('on'))close()})})();
 
 /* ID card */
