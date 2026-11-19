@@ -157,7 +157,7 @@ footer{padding:20px 0 110px;font-size:13px;text-align:center}
 <div class="cu ch" id="ch"></div><div class="cu cr" id="cr"></div><div class="cu cd" id="cd"></div>
 
 <script>
-const CONTENT={email:'rahulkundureshob@gmail.com',longs:[],shorts:[{title:'Short 1',drive:'14HXXC0OyC6o7pk9iRI6WOEdteDluP76J'},{title:'Short 2',drive:'1vthkIpzY3kIjXExrL5QMEgITfR1OtEW5'},{title:'Short 3',drive:'1s0Ky6VWyslptkfAWxtVhmbV3msoUPqCJ'}]}; /* add {title,drive:'FILE_ID'} for a Google Drive video, {title,src,poster} for a hosted video, or {title,url} for a link */
+const CONTENT={email:'rahulkundureshob@gmail.com',longs:[{title:'Edit 1',drive:'14HXXC0OyC6o7pk9iRI6WOEdteDluP76J'}],shorts:[{title:'Short 1',drive:'1vthkIpzY3kIjXExrL5QMEgITfR1OtEW5'},{title:'Short 2',drive:'1s0Ky6VWyslptkfAWxtVhmbV3msoUPqCJ'}]}; /* add {title,drive:'FILE_ID'} for a Google Drive video, {title,src,poster} for a hosted video, or {title,url} for a link */
 const rm=matchMedia('(prefers-reduced-motion:reduce)').matches,$=s=>document.querySelector(s);
 $('#em').textContent=CONTENT.email;
 $('#cp').onclick=async e=>{try{await navigator.clipboard.writeText(CONTENT.email);e.target.textContent='Copied'}catch(x){e.target.textContent='Press and hold the email to copy'}setTimeout(()=>e.target.textContent='Copy email',2200)};
